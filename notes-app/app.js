@@ -7,9 +7,35 @@
 
 const notes = require('./notes')
 const validator = require('validator')
-// import validator from 'validator';
+const log = require('./util/log')
+const commands = require('./util/commands')
+const storage = require('./notes/storage')
+// console.log(validator.isEmail('example.com'))
+// console.log(validator.isURL('http://example.com'))
 
-console.log(notes())
+// console.log(`
+// CPU: ${chalk.red('90%')}
+// RAM: ${chalk.green('40%')}
+// DISK: ${chalk.yellow('70%')}
+// `);
 
-console.log(validator.isEmail('example.com'))
-console.log(validator.isURL('http://example.com'))
+const fs = require('fs')
+
+const book = {
+    title: 'Ego is the enemy',
+    author: 'Ryan Holiday'
+}
+
+const bookJSON = JSON.stringify(book)
+var json = {
+    title: 'teste',
+    json: bookJSON
+}
+
+// storage.save(json)
+
+const jsonData = storage.read({
+    title: 'teste'
+})
+
+log.good(jsonData.title)
