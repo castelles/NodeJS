@@ -1,6 +1,6 @@
 const yargs = require('yargs')
+const notes = require('../notes')
 const log = require('./log')
-
 
 // Customize yargs version
 yargs.version('1.1.0')
@@ -23,8 +23,8 @@ yargs.command({
             type: 'string',
         }
     },
-    handler: (argv) => {
-        log.debug(`Adding new note! \n\n${argv.title} \n     ${argv.body}`)
+    handler: argv => {
+        notes.addNote(argv.title, argv.body)
     }
 })
 

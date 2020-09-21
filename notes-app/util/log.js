@@ -4,7 +4,7 @@ const log = console.log
 const errorLog = chalk.bgRed.bold
 const warningLog = chalk.yellow
 const debugLog = chalk.blue
-const successLog = chalk.green.bold
+const successLog = chalk.bgGreen.bold
 
 const error = message => {
     console.log(errorLog(message))
