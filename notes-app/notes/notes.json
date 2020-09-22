@@ -1,18 +1,1 @@
-[
-    {
-        "title": "t",
-        "body": "b"
-    },
-    {
-        "title": "t1",
-        "body": "b1"
-    },
-    {
-        "title": "notes",
-        "body": "hello"
-    },
-    {
-        "title": "note",
-        "body": "test"
-    }
-]
+[{"title":"Hello!","body":"world"},{"title":"Hello","body":"world"},{"title":"test","body":"note"}]

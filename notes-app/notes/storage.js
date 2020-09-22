@@ -9,6 +9,7 @@ const saveNote = args => {
     fs.writeFileSync(`./notes/notes.json`, dataJSON) 
 }
 
+//returns JSONArray
 const read = args => {
 
     try {

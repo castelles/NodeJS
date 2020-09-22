@@ -32,8 +32,16 @@ yargs.command({
 yargs.command({
     command: 'delete',
     describe: 'Remove a note',
-    handler: () => {
-        log.warning('Removing the note')
+    builder: {
+        title: {
+            alias: 't',
+            describe: 'Note title to be removed',
+            demandOption: true,
+            type: 'string',
+        }
+    },
+    handler: argv => {
+        notes.delete(argv.title)
     }
 })
 
@@ -41,7 +49,10 @@ yargs.command({
 yargs.command({
     command: 'page',
     describe: 'ok',
-    handler: () => log.debug('Listing notes')
+    handler: () => {
+        log.good('Listing notes\n')
+        notes.list()
+    }
 })
 
 //Read command
