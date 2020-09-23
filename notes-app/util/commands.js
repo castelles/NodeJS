@@ -59,7 +59,15 @@ yargs.command({
 yargs.command({
     command: 'get',
     describe: 'ok',
-    handler: () => log.debug('Get a note')
+    builder: {
+        title: {
+            alias: 't',
+            describe: 'Note title to be read',
+            demandOption: true,
+            type: 'string',
+        },
+    },
+    handler: argv => notes.get(argv.title)
 })
 
 yargs.parse()

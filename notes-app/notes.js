@@ -2,34 +2,43 @@ const storage = require('./notes/storage')
 const log = require('./util/log')
 
 
-const getNotes = function () {
-    return 'Your notes...'
-}
-
 const add = (title, body) => {
     
     const notes = loadNotes()
-    const duplicateNotes = notes.filter((note) => {
-        return note.title === title
-    })
+    const duplicateNote = notes.find((note) => note.title === title)
 
-    if (duplicateNotes.length === 0) {
+    debugger
+
+    if (!duplicateNote) {
         notes.push({
             title,
             body
         })
-    
+            
         storage.saveNote(notes)
         log.good('New note added!')
     } else {
         log.error('Note title taken!')
     }
+
 }
 
 // JSONArray
 const loadNotes = () => {
     const titleFileNotes = 'notes'
     return storage.read(titleFileNotes)
+}
+
+const read = title => {
+    const notes = loadNotes()
+    const note = notes.find((note) => note.title === title)
+
+    if (note) {
+        log.warning(note.title)
+        log.debug("    " + note.body + "\n")
+    } else {
+        log.error('Note not found')
+    }
 }
 
 const page = () => {
@@ -56,8 +65,8 @@ const remove = title => {
 
 
 module.exports = {
-    getNotes,
     addNote: add,
+    get: read,
     delete: remove,
     list: page,
 }
