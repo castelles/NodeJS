@@ -22,9 +22,14 @@ const good = message => {
     console.log(successLog(message))
 }
 
+const json = message => {
+    console.log(message)
+}
+
 module.exports = {
     error,
     warning,
     debug,
     good,
+    json
 }

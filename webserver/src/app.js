@@ -3,6 +3,9 @@ const path = require('path')
 const log = require('../util/log')
 const hbs = require('hbs')
 
+const forecast = require('./service/forecast')
+const geocode = require('./service/geocode')
+
 const app = express()
 
 // Define paths for Express config
@@ -48,33 +51,66 @@ app.get('/help/*', (req,res) => {
     })
 })
 
+
+app.get('/weather', (req, res) => {
+
+
+    if (!req.query.address) {
+        return res.send({
+            error: 'You must provide an address'
+        })
+    }
+
+    geocode(
+        req.query.address,
+        (error, {latitude, longitude, location} = {}) => {
+            if (error) {
+                return res.send({ error })
+            } 
+            return forecast(
+                latitude,
+                longitude,
+                (error, forecastData) => {
+                    if (error) {
+                        return res.send({ error })
+                    }
+                    res.send({
+                        location,
+                        address: req.query.address,
+                        forecast: forecastData
+                    })
+
+                    return log.debug(`${location}. 
+                    ${forecastData.description}. It's currently ${forecastData.temperature} degrees out. 
+                        It feels like ${forecastData.feelslike} degrees out`)
+                    // log.debug(JSON.stringify(data))
+                }
+            )
+            
+        },
+    )
+})
+
+app.get('/products', (req, res) => {
+    
+    log.json(req.query)
+
+    if (!req.query.search) {
+        return res.send({
+            error: 'You must provide a search term'
+        })
+    }
+
+    res.send({
+        products: [],
+    })
+})
+
 app.get('*', (req, res) => {
     res.render('404', {
         title: '404',
         name: 'Caio Telles',
         errorMessage: 'Page Not Found'
-    })
-})
-
-// app.get('', (req, res) => {
-//     res.send('<h1>Hello express</h1>')
-// })
-
-// app.get('/help', (req, res) => {
-//     res.send({
-//         name: 'Caio',
-//         age: '23'
-//     })
-// })
-
-// app.get('/about', (req, res) => {
-//     res.send('<h2>about Page</h2>')
-// })
-
-app.get('/weather', (req, res) => {
-    res.send({
-        forecast: 'Sunny',
-        location: 'Manaus'
     })
 })
 
